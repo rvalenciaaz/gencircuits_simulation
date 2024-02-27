@@ -155,7 +155,7 @@ def main():
     # Define the bounds of the search space, these are minx_1,min_x_2,... and the second one is maxx_1, maxx_2
     bounds = torch.stack([torch.tensor([1.0, 0.001]), torch.tensor([3.0, 0.1])])
     num_initial_points = 100  # Number of initial points
-    number_of_iterations=5
+    number_of_iterations=20
 
     meanlist=[1,10]
     stdlist=[0.1,1]
@@ -173,10 +173,22 @@ def main():
     ttorch = torch(t) # Generate 100 time values from 0 to 10
     osci=oscillator(ttorch)
 
+    plt.figure(figsize=(10, 4))
+    plt.plot(ttorch, osci)
+    plt.ylim(-0.1, 1.1) # Adjust y-axis to clearly show on-off states
+    plt.xlabel("Time")
+    plt.ylabel("State")
+    plt.title("Target Oscillator")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
     print("Starting Bayesian Optimization...")
     for number in len(alpha_samples):# Example way to define uncertain parameters
         x_samples, y_results, batch_index, fitted_model = bo_main(bounds, num_initial_points, number_of_iterations, [alpha_samples[number] beta_samples[number]])
-
+        
+        
+        break
 if __name__ == "__main__":
     main()
 
